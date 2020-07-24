@@ -19,7 +19,7 @@ private:
     Node<E>* head;
     Node<E>* curr;
 public:
-    //åˆå§‹åŒ–é“¾è¡¨
+    //³õÊ¼»¯Á´±í
     LinkList(){
         head = new Node<E>;
         curr = head;
@@ -34,10 +34,10 @@ public:
             curr->next = temp;
             curr = temp;
         }
-        curr->next = NULL;//æŒ‡é’ˆåœ¨ä¸åˆå§‹åŒ–çš„æƒ…å†µä¸‹ä¼šéšæœºåˆ†é…å€¼ï¼Œæ‰€ä»¥éœ€è¦æ‰‹åŠ¨è®©æœ«å°¾nextä¸ºç©º
+        curr->next = NULL;//Ö¸ÕëÔÚ²»³õÊ¼»¯µÄÇé¿öÏÂ»áËæ»ú·ÖÅäÖµ£¬ËùÒÔĞèÒªÊÖ¶¯ÈÃÄ©Î²nextÎª¿Õ
     }
 
-    //å±•ç¤ºé“¾è¡¨
+    //Õ¹Ê¾Á´±í
     void showLinkList(){
         cout<<"(";
         Node<E>* temp = head->next;
@@ -53,7 +53,7 @@ public:
         cout<<")"<<endl;
     }
 
-    //é€šè¿‡Posæ’å…¥å…ƒç´ 
+    //ÔÚPos²åÈëÔªËØ
     void insertByPos(int pos,const E& it){
         if(pos<0&&pos>=count){
             cout<<"Wrong pos"<<endl;
@@ -70,7 +70,7 @@ public:
         count++;
     }
 
-    //åœ¨curræ’å…¥å…ƒç´ 
+    //ÔÚcurrºó²åÈëÔªËØ
     void insertElement(const E& it){
         Node<E>* temp = new Node<E>;
         temp->val = it;
@@ -78,7 +78,7 @@ public:
         curr->next = temp;
         count++;
     }
-    //æ¸…ç©ºåˆ—è¡¨
+    //Çå¿ÕÁĞ±í
     void clear(){
         curr=head->next;
         Node<E>* temp = curr;
@@ -89,62 +89,78 @@ public:
         }
         curr = head;
         head->next = NULL;
-        //curr->next = NULL;
         count = 0;
     }
-    //å°¾éƒ¨æ·»åŠ å…ƒç´ 
+    //Î²²¿Ìí¼ÓÔªËØ
     void appendElement(const E& it){
-        Node<E>* tempptr = curr;
         Node<E>* temp =new Node<E>;
         while(curr->next != NULL){
             curr = curr->next;
         }
         temp->val = it;
         curr->next = temp;
-        curr = tempptr;
+        curr = temp;
         temp->next = NULL;
         count++;
     }
-    //åˆ é™¤å…ƒç´ ,åˆ é™¤çš„æ˜¯currçš„å…ƒç´ 
+    //É¾³ıÔªËØ,É¾³ıµÄÊÇcurrµÄÔªËØ
     void deleteElement(){
-        cout<<1<<endl;
         if(count==0){
             cout<<"linklist no more element"<<endl;
             return;
         }
-        cout<<2<<endl;
         Node<E>* temp = curr;
-        curr=head;
-        while(curr->next!=temp){
-            curr=curr->next;
+        curr = head;
+        while(curr!=temp&&curr->next!=temp){
+            curr = curr->next;
         }
-        cout<<3<<endl;
         curr->next=temp->next;
         cout<<"delete element:"<<temp->val<<endl;
         delete temp;
+        count--;
     }
-    //é€šè¿‡Posåˆ é™¤å…ƒç´ 
-    void deletePos(){}
+    //Í¨¹ıPosÉ¾³ıÔªËØ
+    void deletePos(const E& it){
+        curr = head;
+        for(int i = 0;i<it;i++){
+            curr = curr->next;
+        }
+        Node<E>* temp = curr->next;
+        curr->next = temp->next;
+        delete temp;
+        count--;
+    }
 
 
 };
 int main(){
     LinkList<int> list;
+    cout<<"´´½¨µÄÁ´±í";
     list.showLinkList();
+    cout<<"ÔÚcurr´¦²åÈëÔªËØ:";
     list.insertByPos(0,10);
     list.showLinkList();
+    cout<<"Çå¿ÕºóµÄÁ´±í:";
     list.clear();
     list.showLinkList();
+    cout<<"Ìí¼ÓÔªËØºóµÄÁ´±í:";
     list.appendElement(1);
     list.appendElement(3);
     list.appendElement(5);
     list.appendElement(7);
     list.appendElement(9);
     list.showLinkList();
-    list.insertElement(100);//æµ‹è¯•appendåcurræ˜¯å¦è¿”å›åˆ°åŸæœ¬çš„ä½ç½®
+    cout<<"ÔÚcurr´¦²åÈë100ºóµÄÁ´±í:";
+    list.insertElement(100);//²âÊÔappendºócurrÊÇ·ñ·µ»Øµ½Ô­±¾µÄÎ»ÖÃ
     list.showLinkList();
-    cout<<"hi"<<endl;
+    cout<<"É¾³ıcurr´¦ÔªËØºóµÄÁ´±í:";
     list.deleteElement();
     list.showLinkList();
     //list.test();
+    cout<<"É¾³ıÎ»ÖÃ2´¦µÄÔªËØºóµÄÁ´±í:";
+    list.deletePos(2);
+    list.showLinkList();
+    cout<<"ÔÚÎ»ÖÃ2²åÈë99ºóµÄÁ´±í:";
+    list.insertByPos(2,99);
+    list.showLinkList();
 }
